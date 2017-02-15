@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    redshift-connector (4.3.0)
+    redshift-connector (5.0.0)
       activerecord (~> 5.0)
       activerecord-import
       activerecord5-redshift-adapter
