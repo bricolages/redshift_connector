@@ -2,11 +2,9 @@
 
 redshift-connector is a Redshift bulk data connector for Rails (ActiveRecord).
 
-## Usage
+## Settings
 
-Add following block to your Gemfile.
+Add following block to your Gemfile and bundle.
 ```
-source 'https://gems.ckpd.co/' do
-  gem 'redshift-connector', require: 'redshift-connector'
-end
+gem 'redshift-connector'
 ```
