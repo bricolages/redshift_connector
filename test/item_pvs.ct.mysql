@@ -1,0 +1,11 @@
+create table item_pvs
+( id bigint(20) primary key
+, data_date date not null
+, item_id int(11) not null
+, pv bigint(20) not null default 0
+, uu bigint(20) not null default 0
+)
+;
+
+create unique index item_pvs_idx on item_pvs (id, data_date, item_id) using btree
+;

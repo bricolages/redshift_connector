@@ -1,0 +1,19 @@
+# Packaging
+*.gem
+/spec/reports/
+/spec/examples.txt
+
+# Documents
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+
+# Bundler
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# Gem Specific
+test/database.yml
+test/config.rb

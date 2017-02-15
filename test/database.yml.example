@@ -1,0 +1,15 @@
+mysql:
+  adapter: mysql2
+  host: localhost
+  username: USER_NAME
+  database: test
+  encoding: utf8
+
+redshift:
+  adapter: redshift
+  host: HOST_NAME
+  port: 5439
+  database: DATABASE_NAME
+  username: USER_NAME
+  password: PASSWORD
+  encoding: utf8

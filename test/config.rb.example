@@ -1,0 +1,18 @@
+module RedshiftConnector
+  # For test only
+  $TEST_SCHEMA = 'test'
+
+  Exporter.default_data_source = Redshift
+
+  S3Bucket.add(
+    'ENTRY_NAME',
+    bucket: 'YOUR_BUCKET_NAME',
+    prefix: 'development',
+    # When using IAM role
+    iam_role: 'arn:aws:iam::NNNNNNNNNNNN:role/RRRRRRRRR',
+    # When using explicit access key
+    #access_key_id: 'AAAAAAAAAA',
+    #secret_access_key: 'SSSSSSSSSS',
+    default: true
+  )
+end
