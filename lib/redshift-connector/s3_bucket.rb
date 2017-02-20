@@ -21,7 +21,8 @@ module RedshiftConnector
       @buckets[name.to_s] or raise ArgumentError, "no such S3 bucket configured: #{name.inspect}"
     end
 
-    def initialize(bucket:, prefix: nil, access_key_id: nil, secret_access_key: nil, iam_role: nil)
+    def initialize(region: nil, bucket:, prefix: nil, access_key_id: nil, secret_access_key: nil, iam_role: nil)
+      @region = region
       @name = bucket
       @prefix = prefix
       @access_key_id = access_key_id
@@ -37,7 +38,10 @@ module RedshiftConnector
     end
 
     def client
-      @client ||= Aws::S3::Client.new(access_key_id: @access_key_id, secret_access_key: @secret_access_key)
+      @client ||= begin
+        args = { region: @region, access_key_id: @access_key_id, secret_access_key: @secret_access_key }.reject {|k, v| v.nil? }
+        Aws::S3::Client.new(**args)
+      end
     end
 
     def bucket
