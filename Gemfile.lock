@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    redshift-connector (5.0.0)
+    redshift-connector (5.3.1)
       activerecord (~> 5.0)
       activerecord-import
       activerecord5-redshift-adapter
@@ -28,17 +28,17 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.1.4)
-    aws-sdk (2.7.8)
-      aws-sdk-resources (= 2.7.8)
-    aws-sdk-core (2.7.8)
+    aws-sdk (2.7.15)
+      aws-sdk-resources (= 2.7.15)
+    aws-sdk-core (2.7.15)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.7.8)
-      aws-sdk-core (= 2.7.8)
+    aws-sdk-resources (2.7.15)
+      aws-sdk-core (= 2.7.15)
     aws-sigv4 (1.0.0)
     coderay (1.1.1)
-    concurrent-ruby (1.0.4)
-    i18n (0.8.0)
+    concurrent-ruby (1.0.5)
+    i18n (0.8.1)
     jmespath (1.3.1)
     method_source (0.8.2)
     minitest (5.10.1)
@@ -53,7 +53,7 @@ GEM
     slop (3.6.0)
     test-unit (3.2.3)
       power_assert
-    thread_safe (0.3.5)
+    thread_safe (0.3.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 

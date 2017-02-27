@@ -1,5 +1,13 @@
 # Release Note
 
+## version 5.3.1
+
+- correspond to 4.3.1
+
+## version 4.3.1
+
+- [fix] Add option for AWS multi-regions support
+
 ## version 4.3.0
 
 - [new] New method RedshiftConnector.foreach to read rows with UNLOAD
