@@ -2,10 +2,11 @@ require 'redshift-connector/s3_bucket'
 require 'redshift-connector/s3_data_file'
 require 'redshift-connector/reader'
 require 'redshift-connector/logger'
+require 'redshift-connector/data_file_bundle_base'
 require 'aws-sdk'
 
 module RedshiftConnector
-  class S3DataFileBundle
+  class S3DataFileBundle < DataFileBundleBase
     def self.for_prefix(bucket: S3Bucket.default, prefix:, format:, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
       real_prefix = "#{bucket.prefix}/#{prefix}"
       new(bucket, real_prefix, format: format, filter: filter, batch_size: batch_size, logger: logger)
@@ -68,25 +69,9 @@ module RedshiftConnector
     end
     private :do_each_batch
 
-    def each_row(&block)
-      each_object do |obj|
-        obj.each_row(&block)
-      end
-    end
-
-    alias each each_row
-
-    def each_object(&block)
-      all_data_objects.each do |obj|
-        @logger.info "processing s3 object: #{obj.key}"
-        yield obj
-      end
-    end
-
-    def all_data_objects
+    def data_files
       @bucket.objects(prefix: @prefix)
         .map {|obj| S3DataFile.new(obj, reader_class: @reader_class) }
-        .select {|obj| obj.data_object? }
     end
 
     def clear

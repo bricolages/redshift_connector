@@ -8,8 +8,8 @@ module RedshiftConnector
   class Reader::CSV < Reader::Abstract
     declare_reader :csv
 
-    def self.data_object?(obj)
-      /\.csv(?:\.|\z)/ =~ File.basename(obj.key)
+    def self.data_object?(key)
+      /\.csv(?:\.|\z)/ =~ File.basename(key)
     end
 
     def initialize(f)

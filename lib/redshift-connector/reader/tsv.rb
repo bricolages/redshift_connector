@@ -7,8 +7,8 @@ module RedshiftConnector
   class Reader::TSV < Reader::Abstract
     declare_reader :tsv
 
-    def self.data_object?(obj)
-      /\.tsv(?:\.|\z)/ =~ File.basename(obj.key)
+    def self.data_object?(key)
+      /\.tsv(?:\.|\z)/ =~ File.basename(key)
     end
 
     def initialize(f)
