@@ -1,4 +1,4 @@
-require 'redshift-connector/data_file_base'
+require 'redshift-connector/abstract_data_file'
 require 'uri'
 require 'zlib'
 require 'open3'

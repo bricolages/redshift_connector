@@ -1,5 +1,5 @@
 module RedshiftConnector
-  class DataFileBundleBase
+  class AbstractDataFileBundle
     def each_row(&block)
       each_object do |obj|
         obj.each_row(&block)

@@ -1,6 +1,6 @@
 require 'redshift-connector/reader'
 require 'redshift-connector/logger'
-require 'redshift-connector/data_file_bundle_base'
+require 'redshift-connector/abstract_data_file_bundle'
 require 'redshift-connector/url_data_file'
 
 module RedshiftConnector

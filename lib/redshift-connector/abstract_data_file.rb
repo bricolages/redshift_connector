@@ -1,7 +1,7 @@
 require 'zlib'
 
 module RedshiftConnector
-  class DataFileBase
+  class AbstractDataFile
     def each_row(&block)
       f = if gzipped_object?
             Zlib::GzipReader.new(content)
