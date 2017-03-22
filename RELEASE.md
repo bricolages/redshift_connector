@@ -1,5 +1,13 @@
 # Release Note
 
+## version 4.3.2
+
+- [new] Allows reading from S3 signed URL (for separated export/import processes)
+
+## version 4.3.1
+
+- [fix] Add option for AWS multi-regions support
+
 ## version 4.3.0
 
 - [new] New method RedshiftConnector.foreach to read rows with UNLOAD
