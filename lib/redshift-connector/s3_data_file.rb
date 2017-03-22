@@ -1,7 +1,7 @@
-require 'zlib'
+require 'redshift-connector/abstract_data_file'
 
 module RedshiftConnector
-  class S3DataFile
+  class S3DataFile < AbstractDataFile
     def initialize(object, reader_class:)
       @object = object
       @reader_class = reader_class
@@ -11,24 +11,10 @@ module RedshiftConnector
       @object.key
     end
 
-    def each_row(&block)
-      response = @object.get
-      f = if gzipped_object?
-        Zlib::GzipReader.new(response.body)
-      else
-        response.body
-      end
-      @reader_class.new(f).each(&block)
-    ensure
-      response.body.close if response
+    def content
+      @object.get.body
     end
 
-    def data_object?
-      @reader_class.data_object?(@object)
-    end
-
-    def gzipped_object?
-      File.extname(@object.key) == '.gz'
-    end
+    delegate :presigned_url, to: :@object
   end
 end
