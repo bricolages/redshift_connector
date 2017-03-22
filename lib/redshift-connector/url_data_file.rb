@@ -4,7 +4,7 @@ require 'zlib'
 require 'open3'
 
 module RedshiftConnector
-  class UrlDataFile < DataFileBase
+  class UrlDataFile < AbstractDataFile
     def initialize(url, reader_class:)
       @url = url
       @reader_class = reader_class

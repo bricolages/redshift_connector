@@ -6,7 +6,7 @@ require 'redshift-connector/abstract_data_file_bundle'
 require 'aws-sdk'
 
 module RedshiftConnector
-  class S3DataFileBundle < DataFileBundleBase
+  class S3DataFileBundle < AbstractDataFileBundle
     def self.for_prefix(bucket: S3Bucket.default, prefix:, format:, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
       real_prefix = "#{bucket.prefix}/#{prefix}"
       new(bucket, real_prefix, format: format, filter: filter, batch_size: batch_size, logger: logger)
