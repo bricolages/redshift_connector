@@ -1,5 +1,9 @@
 # Release Note
 
+## version 5.3.2
+
+- [new] Allows reading from S3 signed URL (for separated export/import processes)
+
 ## version 5.3.1
 
 - correspond to 4.3.1
