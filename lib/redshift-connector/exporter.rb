@@ -74,19 +74,6 @@ module RedshiftConnector
     attr_reader :bundle
     attr_reader :logger
 
-    def completed?
-      @bundle.bucket.object(flag_object_key).exists?
-    end
-
-    def create_flag_object
-      @logger.info "TOUCH #{flag_object_key}"
-      @bundle.bucket.object(flag_object_key).put(body: "OK")
-    end
-
-    def flag_object_key
-      "#{File.dirname(@bundle.prefix)}/00completed"
-    end
-
     def execute
       @bundle.clear
       @logger.info "EXPORT #{@query.description} -> #{@bundle.url}*"
@@ -95,7 +82,6 @@ module RedshiftConnector
         @logger.info "[SQL/Redshift] #{batch_job_label}#{stmt.strip}"
         conn.execute(batch_job_label + stmt)
       end
-      create_flag_object
     end
 
     def batch_job_label
