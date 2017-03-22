@@ -1,5 +1,10 @@
 # Release Note
 
+## version 4.4.0
+
+- [CHANGE] Drops export-only-once feature (and FORCE environment switch), it is not so useful.
+  Exporter now always exports data.
+
 ## version 4.3.2
 
 - [new] Allows reading from S3 signed URL (for separated export/import processes)
