@@ -13,6 +13,7 @@
 /.bundle/
 /vendor/bundle
 /lib/bundler/man/
+Gemfile.lock
 
 # Gem Specific
 test/database.yml
