@@ -1,5 +1,9 @@
 # Release Note
 
+## version 4.4.1
+
+- [new] New option enable_sort for Connector.foreach, to enforce global sorting.
+
 ## version 4.4.0
 
 - [CHANGE] Drops export-only-once feature (and FORCE environment switch), it is not so useful.
