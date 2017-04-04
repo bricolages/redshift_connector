@@ -41,6 +41,7 @@ module RedshiftConnector
         query:,
         txn_id: "#{Time.now.strftime('%Y%m%d_%H%M%S')}_#{$$}",
         filter: nil,
+        enable_sort: false,
         logger: RedshiftConnector.logger,
         quiet: false
     )
@@ -56,7 +57,7 @@ module RedshiftConnector
       )
       exporter = Exporter.new(
         ds: ds,
-        query: UnloadQuery.wrap(query: query, bundle: bundle),
+        query: UnloadQuery.wrap(query: query, bundle: bundle, enable_sort: enable_sort),
         bundle: bundle,
         logger: logger
       )
