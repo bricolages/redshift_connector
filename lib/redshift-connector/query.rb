@@ -44,13 +44,14 @@ module RedshiftConnector
   end
 
   class UnloadQuery
-    def UnloadQuery.wrap(query:, bundle:)
-      new(query: ArbitraryQuery.new(query), bundle: bundle)
+    def UnloadQuery.wrap(query:, bundle:, enable_sort: false)
+      new(query: ArbitraryQuery.new(query), bundle: bundle, enable_sort: enable_sort)
     end
 
-    def initialize(query:, bundle:)
+    def initialize(query:, bundle:, enable_sort: false)
       @query = query
       @bundle = bundle
+      @enable_sort = enable_sort
     end
 
     def table_spec
@@ -68,6 +69,7 @@ module RedshiftConnector
         credentials '#{@bundle.credential_string}'
         gzip
         allowoverwrite
+        parallel #{@enable_sort ? 'off' : 'on'}
         delimiter ',' escape addquotes
       EndSQL
     end
