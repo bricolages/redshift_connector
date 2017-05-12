@@ -1,4 +1,4 @@
-require 'redshift-connector/abstract_data_file'
+require 'redshift-connector/data_file'
 
 module RedshiftConnector
   class S3DataFile < AbstractDataFile
