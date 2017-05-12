@@ -1,5 +1,9 @@
 # Release Note
 
+## version 5.5.0
+
+- [new] Separates S3 access layer to another gem: redshift-connector-data_file
+
 ## version 5.4.1
 
 - [new] New option enable_sort for Connector.foreach, to enforce global sorting.
