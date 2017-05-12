@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'redshift-connector/reader'
+require 'redshift-connector/data_file'
 
 module RedshiftConnector
   module Reader

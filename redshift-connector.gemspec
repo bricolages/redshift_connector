@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.1.0'
   s.add_dependency 'activerecord', '< 5'
   s.add_dependency 'activerecord4-redshift-adapter'
+  s.add_dependency 'redshift-connector-data_file', '~> 1.0.0'
   s.add_dependency 'pg', '~> 0.18.0'
   s.add_dependency 'activerecord-import'
   s.add_dependency 'aws-sdk', '~> 2.0'
