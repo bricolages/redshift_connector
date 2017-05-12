@@ -1,5 +1,4 @@
 require 'test/unit'
-require 'redshift-connector/reader'
 
 module RedshiftConnector
   class TestReader < Test::Unit::TestCase

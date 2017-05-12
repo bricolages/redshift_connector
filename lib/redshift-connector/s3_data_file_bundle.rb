@@ -1,8 +1,7 @@
 require 'redshift-connector/s3_bucket'
 require 'redshift-connector/s3_data_file'
-require 'redshift-connector/reader'
 require 'redshift-connector/logger'
-require 'redshift-connector/abstract_data_file_bundle'
+require 'redshift-connector/data_file'
 require 'aws-sdk'
 
 module RedshiftConnector
