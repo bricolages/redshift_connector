@@ -1,3 +1,3 @@
 module RedshiftConnector
-  VERSION = '4.5.0'
+  VERSION = '5.5.0'
 end
