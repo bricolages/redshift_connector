@@ -1,5 +1,9 @@
 # Release Note
 
+## version 5.6.0
+
+- Unifies version 4.x (supports Rails 4) and 5.x (supports Rails 5).
+
 ## version 4.5.0 / 5.5.0
 
 - [new] Separates S3 access layer to another gem: redshift-connector-data_file
