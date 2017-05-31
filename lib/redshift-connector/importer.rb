@@ -28,6 +28,20 @@ module RedshiftConnector
         filter: filter,
         logger: logger
       )
+      transport_delta_from_bundle(
+        bundle: bundle,
+        table: table, columns: columns,
+        delete_cond: delete_cond, upsert_columns: upsert_columns,
+        logger: logger, quiet: quiet
+      )
+    end
+
+    def Importer.transport_delta_from_bundle(
+      bundle:,
+      table:, columns:,
+      delete_cond: nil, upsert_columns: nil,
+      logger: RedshiftConnector.logger, quiet: false
+    )
       if delete_cond and upsert_columns
         raise ArgumentError, "delete_cond and upsert_columns are exclusive"
       end
@@ -68,6 +82,20 @@ module RedshiftConnector
         filter: filter,
         logger: logger
       )
+      transport_all_from_bundle(
+        strategy: strategy,
+        bundle: bundle,
+        table: table, columns: columns,
+        logger: logger, quiet: quiet
+      )
+    end
+
+    def Importer.transport_all_from_bundle(
+      strategy: 'rename',
+      bundle:,
+      table:, columns:,
+      logger: RedshiftConnector.logger, quiet: false
+    )
       importer = get_rebuild_class(strategy).new(
         dao: table.classify.constantize,
         bundle: bundle,
