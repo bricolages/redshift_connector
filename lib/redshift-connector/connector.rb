@@ -40,30 +40,12 @@ module RedshiftConnector
         condition: condition,
         logger: logger
       )
-      if delete_cond and upsert_columns
-        raise ArgumentError, "delete_cond and upsert_columns are exclusive"
-      end
-      dao = dest_table.classify.constantize
-      importer =
-        if delete_cond
-          Importer::InsertDelta.new(
-            dao: dao,
-            bundle: bundle,
-            columns: columns,
-            delete_cond: delete_cond,
-            logger: logger
-          )
-        elsif upsert_columns
-          Importer::Upsert.new(
-            dao: dao,
-            bundle: bundle,
-            columns: columns,
-            upsert_columns: upsert_columns,
-            logger: logger
-          )
-        else
-          raise ArgumentError, "either of delete_cond or upsert_columns is required for transport_delta"
-        end
+      importer = Importer.transport_delta_from_bundle(
+        bundle: bundle,
+        table: dest_table, columns: columns,
+        delete_cond: delete_cond, upsert_columns: upsert_columns,
+        logger: logger, quiet: quiet
+      )
       new(exporter: exporter, importer: importer, logger: logger)
     end
 
@@ -97,11 +79,11 @@ module RedshiftConnector
         columns: columns,
         logger: logger
       )
-      importer = Importer.get_rebuild_class(strategy).new(
-        dao: table.classify.constantize,
+      importer = Importer.transport_all_from_bundle(
+        strategy: strategy,
         bundle: bundle,
-        columns: columns,
-        logger: logger
+        table: table, columns: columns,
+        logger: logger, quiet: quiet
       )
       new(exporter: exporter, importer: importer, logger: logger)
     end
