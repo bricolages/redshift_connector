@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'activerecord'
   s.add_dependency 'activerecord-redshift'
   s.add_dependency 'redshift-connector-data_file', '~> 1.0.0'
-  s.add_dependency 'pg'
+  s.add_dependency 'pg', '~> 0.18'
   s.add_dependency 'activerecord-import'
   s.add_dependency 'aws-sdk', '~> 2.0'
   s.add_development_dependency 'test-unit'
