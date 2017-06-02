@@ -1,5 +1,9 @@
 # Release Note
 
+## version 6.0.0
+
+- version number change only.
+
 ## version 5.6.0
 
 - Unifies version 4.x (supports Rails 4) and 5.x (supports Rails 5).
