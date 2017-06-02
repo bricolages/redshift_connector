@@ -37,37 +37,6 @@ module RedshiftConnector
       @bucket.credential_string
     end
 
-    REPORT_SIZE = 10_0000
-
-    def each_batch(report: true)
-      @logger.info "reader: #{@reader_class}"
-      n = 0
-      reported = 0
-      do_each_batch(@batch_size) do |rows|
-        yield rows
-        n += rows.size
-        if n / REPORT_SIZE > reported
-          @logger.info "#{n} rows processed" if report
-          reported = n / REPORT_SIZE
-        end
-      end
-      @logger.info "total #{n} rows processed" if report
-    end
-
-    def do_each_batch(batch_size)
-      filter = @filter
-      buf = []
-      each_row do |row|
-        buf.push filter.(*row)
-        if buf.size == batch_size
-          yield buf
-          buf = []
-        end
-      end
-      yield buf unless buf.empty?
-    end
-    private :do_each_batch
-
     def data_files
       @bucket.objects(prefix: @prefix)
         .map {|obj| S3DataFile.new(obj, reader_class: @reader_class) }
