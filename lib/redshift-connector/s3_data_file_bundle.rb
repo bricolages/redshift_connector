@@ -6,6 +6,21 @@ require 'aws-sdk'
 
 module RedshiftConnector
   class S3DataFileBundle < AbstractDataFileBundle
+    def self.for_params(params)
+      unless params.txn_id
+        raise ArgumentError, "cannot create bundle: missing txn_id"
+      end
+      s3bucket = params.bucket ? S3Bucket.get(params.bucket) : S3Bucket.default
+      for_table(
+        bucket: s3bucket,
+        schema: params.schema,
+        table: params.table,
+        txn_id: params.txn_id,
+        filter: params.filter,
+        logger: params.logger
+      )
+    end
+
     def self.for_prefix(bucket: S3Bucket.default, prefix:, format:, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
       real_prefix = "#{bucket.prefix}/#{prefix}"
       new(bucket, real_prefix, format: format, filter: filter, batch_size: batch_size, logger: logger)

@@ -3,16 +3,15 @@ require 'redshift-connector/logger'
 
 module RedshiftConnector
   class Importer::RebuildTruncate
-    def initialize(dao:, bundle:, columns:, logger: RedshiftConnector.logger)
+    def initialize(dao:, columns:, logger: RedshiftConnector.logger)
       @dao = dao
-      @bundle = bundle
       @columns = columns
       @logger = logger
     end
 
-    def execute
+    def execute(bundle)
       truncate_table(@dao.table_name)
-      import
+      import(bundle)
     end
 
     def truncate_table(table_name)
@@ -21,9 +20,9 @@ module RedshiftConnector
       @logger.info "truncated."
     end
 
-    def import
-      @logger.info "IMPORT #{@bundle.url}* -> #{@dao.table_name} (#{@columns.join(', ')})"
-      @bundle.each_batch do |rows|
+    def import(bundle)
+      @logger.info "IMPORT #{bundle.url}* -> #{@dao.table_name} (#{@columns.join(', ')})"
+      bundle.each_batch do |rows|
         @dao.import(@columns, rows)
       end
     end
