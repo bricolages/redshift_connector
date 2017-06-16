@@ -1,7 +1,7 @@
-require 'redshift-connector/exporter'
-require 'redshift-connector/importer'
-require 'redshift-connector/data_file_bundle_params'
-require 'redshift-connector/logger'
+require 'redshift_connector/exporter'
+require 'redshift_connector/importer'
+require 'redshift_connector/data_file_bundle_params'
+require 'redshift_connector/logger'
 
 module RedshiftConnector
   class Connector

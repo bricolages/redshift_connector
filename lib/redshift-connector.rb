@@ -1,15 +1,15 @@
 module RedshiftConnector
 end
 
-require 'redshift-connector/connector'
-require 'redshift-connector/exporter'
-require 'redshift-connector/active_record_data_source'
-require 'redshift-connector/active_record_exporter'
-require 'redshift-connector/importer'
-require 'redshift-connector/s3_bucket'
-require 'redshift-connector/s3_data_file_bundle'
-require 'redshift-connector/exception'
-require 'redshift-connector/version'
+require 'redshift_connector/connector'
+require 'redshift_connector/exporter'
+require 'redshift_connector/active_record_data_source'
+require 'redshift_connector/active_record_exporter'
+require 'redshift_connector/importer'
+require 'redshift_connector/s3_bucket'
+require 'redshift_connector/s3_data_file_bundle'
+require 'redshift_connector/exception'
+require 'redshift_connector/version'
 
 module RedshiftConnector
   def RedshiftConnector.transport_delta(**params)

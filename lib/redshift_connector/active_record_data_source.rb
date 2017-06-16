@@ -1,4 +1,4 @@
-require 'redshift-connector/exporter_builder'
+require 'redshift_connector/exporter_builder'
 
 module RedshiftConnector
   class ActiveRecordDataSource
