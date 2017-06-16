@@ -1,5 +1,5 @@
-require 'redshift-connector/query'
-require 'redshift-connector/logger'
+require 'redshift_connector/query'
+require 'redshift_connector/logger'
 
 module RedshiftConnector
   class ExporterBuilder

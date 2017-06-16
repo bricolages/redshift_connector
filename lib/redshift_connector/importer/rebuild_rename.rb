@@ -1,5 +1,5 @@
-require 'redshift-connector/importer/activerecord-import'
-require 'redshift-connector/logger'
+require 'redshift_connector/importer/activerecord-import'
+require 'redshift_connector/logger'
 
 module RedshiftConnector
   class Importer::RebuildRename

@@ -4,11 +4,11 @@ module RedshiftConnector
   end
 end
 
-require 'redshift-connector/importer/upsert'
-require 'redshift-connector/importer/insert_delta'
-require 'redshift-connector/importer/rebuild_rename'
-require 'redshift-connector/importer/rebuild_truncate'
-require 'redshift-connector/logger'
+require 'redshift_connector/importer/upsert'
+require 'redshift_connector/importer/insert_delta'
+require 'redshift_connector/importer/rebuild_rename'
+require 'redshift_connector/importer/rebuild_truncate'
+require 'redshift_connector/logger'
 
 module RedshiftConnector
   module Importer

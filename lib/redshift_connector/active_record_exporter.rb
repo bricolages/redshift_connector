@@ -1,6 +1,6 @@
-require 'redshift-connector/s3_data_file_bundle'
-require 'redshift-connector/query'
-require 'redshift-connector/logger'
+require 'redshift_connector/s3_data_file_bundle'
+require 'redshift_connector/query'
+require 'redshift_connector/logger'
 
 module RedshiftConnector
   class ActiveRecordExporter
@@ -38,7 +38,7 @@ module RedshiftConnector
           else
             components[-1]
           end
-        batch_file = caller.detect {|c| /redshift-connector|active_record/ !~ c }
+        batch_file = caller.detect {|c| /redshift_connector|active_record/ !~ c }
         path = batch_file ? batch_file.split(':').first : '?'
         "/* Job: #{app}:#{path} */ "
       end
