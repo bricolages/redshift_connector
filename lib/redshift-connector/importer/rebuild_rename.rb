@@ -3,14 +3,13 @@ require 'redshift-connector/logger'
 
 module RedshiftConnector
   class Importer::RebuildRename
-    def initialize(dao:, bundle:, columns:, logger: RedshiftConnector.logger)
+    def initialize(dao:, columns:, logger: RedshiftConnector.logger)
       @dao = dao
-      @bundle = bundle
       @columns = columns
       @logger = logger
     end
 
-    def execute
+    def execute(bundle)
       dest_table = @dao.table_name
       tmp_table = "#{dest_table}_new"
       old_table = "#{dest_table}_old"
@@ -20,7 +19,7 @@ module RedshiftConnector
 
       exec_update "drop table if exists #{tmp_table}"
       exec_update "create table #{tmp_table} like #{dest_table}"
-      import(tmp_dao)
+      import(tmp_dao, bundle)
       exec_update "drop table if exists #{old_table}"
       # Atomic table exchange
       exec_update "rename table #{dest_table} to #{old_table}, #{tmp_table} to #{dest_table}"
@@ -31,9 +30,9 @@ module RedshiftConnector
       @dao.connection.execute(query)
     end
 
-    def import(dao)
-      @logger.info "IMPORT #{@bundle.url}* -> #{dao.table_name} (#{@columns.join(', ')})"
-      @bundle.each_batch do |rows|
+    def import(dao, bundle)
+      @logger.info "IMPORT #{bundle.url}* -> #{dao.table_name} (#{@columns.join(', ')})"
+      bundle.each_batch do |rows|
         dao.import(@columns, rows)
       end
     end

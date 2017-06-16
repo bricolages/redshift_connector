@@ -1,6 +1,6 @@
 require 'redshift-connector/exporter'
 require 'redshift-connector/importer'
-require 'redshift-connector/s3_data_file_bundle'
+require 'redshift-connector/data_file_bundle_params'
 require 'redshift-connector/logger'
 
 module RedshiftConnector
@@ -15,16 +15,16 @@ module RedshiftConnector
         delete_cond: nil,
         upsert_columns: nil,
         bucket: nil,
-        txn_id:, filter:,
+        txn_id: nil,
+        filter:,
         logger: RedshiftConnector.logger,
         quiet: false
     )
       unless src_table and dest_table
         raise ArgumentError, "missing :table, :src_table or :dest_table"
       end
-      bucket = bucket ? S3Bucket.get(bucket) : S3Bucket.default
       logger = NullLogger.new if quiet
-      bundle = S3DataFileBundle.for_table(
+      bundle_params = DataFileBundleParams.new(
         bucket: bucket,
         schema: schema,
         table: src_table,
@@ -33,18 +33,19 @@ module RedshiftConnector
         logger: logger
       )
       exporter = Exporter.for_table_delta(
-        bundle: bundle,
+        bundle_params: bundle_params,
         schema: schema,
         table: src_table,
         columns: columns,
         condition: condition,
         logger: logger
       )
-      importer = Importer.transport_delta_from_bundle(
-        bundle: bundle,
-        table: dest_table, columns: columns,
-        delete_cond: delete_cond, upsert_columns: upsert_columns,
-        logger: logger, quiet: quiet
+      importer = Importer.for_delta_upsert(
+        table: dest_table,
+        columns: columns,
+        delete_cond: delete_cond,
+        upsert_columns: upsert_columns,
+        logger: logger
       )
       new(exporter: exporter, importer: importer, logger: logger)
     end
@@ -57,33 +58,32 @@ module RedshiftConnector
         dest_table: table,
         columns:,
         bucket: nil,
-        txn_id:,
+        txn_id: nil,
         filter:,
         logger: RedshiftConnector.logger,
         quiet: false
     )
-      bucket = bucket ? S3Bucket.get(bucket) : S3Bucket.default
       logger = NullLogger.new if quiet
-      bundle = S3DataFileBundle.for_table(
+      bundle_params = DataFileBundleParams.new(
         bucket: bucket,
         schema: schema,
-        table: table,
+        table: src_table,
         txn_id: txn_id,
         filter: filter,
         logger: logger
       )
       exporter = Exporter.for_table(
-        bundle: bundle,
+        bundle_params: bundle_params,
         schema: schema,
-        table: table,
+        table: src_table,
         columns: columns,
         logger: logger
       )
-      importer = Importer.transport_all_from_bundle(
+      importer = Importer.for_rebuild(
         strategy: strategy,
-        bundle: bundle,
-        table: table, columns: columns,
-        logger: logger, quiet: quiet
+        table: dest_table,
+        columns: columns,
+        logger: logger
       )
       new(exporter: exporter, importer: importer, logger: logger)
     end
@@ -92,6 +92,7 @@ module RedshiftConnector
       @exporter = exporter
       @importer = importer
       @logger = logger
+      @bundle = nil
     end
 
     def export_enabled?
@@ -109,12 +110,12 @@ module RedshiftConnector
 
     def export
       @logger.info "==== export task =================================================="
-      @exporter.execute
+      @bundle = @exporter.execute
     end
 
     def import
       @logger.info "==== import task =================================================="
-      @importer.execute
+      @importer.execute(@bundle)
     end
   end
 end

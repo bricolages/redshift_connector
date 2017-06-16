@@ -3,9 +3,12 @@ end
 
 require 'redshift-connector/connector'
 require 'redshift-connector/exporter'
+require 'redshift-connector/active_record_data_source'
+require 'redshift-connector/active_record_exporter'
 require 'redshift-connector/importer'
 require 'redshift-connector/s3_bucket'
 require 'redshift-connector/s3_data_file_bundle'
+require 'redshift-connector/exception'
 require 'redshift-connector/version'
 
 module RedshiftConnector
