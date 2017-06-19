@@ -1,5 +1,10 @@
 # Release Note
 
+## version 7.0.0
+
+- [INCOMPATIBLE] Library hierarchy changed: redshift-connector/* -> redshift_connector/*.  redshift-connector.rb still exists as an entry point for bundler.
+- [new] Exporter becomes pluggable.  You can implement your own exporter data source instead of ActiveRecord.
+
 ## version 6.0.0
 
 - version number change only.
