@@ -1,10 +1,43 @@
 require 'redshift_connector/exporter'
+require 'redshift_connector/immediate_exporter'
 require 'redshift_connector/importer'
 require 'redshift_connector/data_file_bundle_params'
+require 'redshift_connector/s3_data_file_bundle'
 require 'redshift_connector/logger'
 
 module RedshiftConnector
   class Connector
+    def Connector.transport_delta_from_s3(
+      bucket: nil,
+      prefix:,
+      format:,
+      filter: nil,
+      table:,
+      columns:,
+      delete_cond: nil,
+      upsert_columns: nil,
+      logger: RedshiftConnector.logger,
+      quiet: false
+    )
+      logger = NullLogger.new if quiet
+      bundle = S3DataFileBundle.for_prefix(
+        bucket: (bucket ? S3Bucket.get(bucket) : S3Bucket.default),
+        prefix: prefix,
+        format: format,
+        filter: filter,
+        logger: logger
+      )
+      exporter = ImmediateExporter.new(bundle: bundle, logger: logger)
+      importer = Importer.for_delta_upsert(
+        table: table,
+        columns: columns,
+        delete_cond: delete_cond,
+        upsert_columns: upsert_columns,
+        logger: logger
+      )
+      new(exporter: exporter, importer: importer, logger: logger)
+    end
+
     def Connector.transport_delta(
         schema:,
         table: nil,
@@ -45,6 +78,35 @@ module RedshiftConnector
         columns: columns,
         delete_cond: delete_cond,
         upsert_columns: upsert_columns,
+        logger: logger
+      )
+      new(exporter: exporter, importer: importer, logger: logger)
+    end
+
+    def Connector.transport_all_from_s3(
+        strategy: 'rename',
+        table:,
+        columns:,
+        bucket: nil,
+        prefix:,
+        format:,
+        filter: nil,
+        logger: RedshiftConnector.logger,
+        quiet: false
+    )
+      logger = NullLogger.new if quiet
+      bundle = S3DataFileBundle.for_prefix(
+        bucket: (bucket ? S3Bucket.get(bucket) : S3Bucket.default),
+        prefix: prefix,
+        format: format,
+        filter: filter,
+        logger: logger
+      )
+      exporter = ImmediateExporter.new(bundle: bundle, logger: logger)
+      importer = Importer.for_rebuild(
+        strategy: strategy,
+        table: table,
+        columns: columns,
         logger: logger
       )
       new(exporter: exporter, importer: importer, logger: logger)

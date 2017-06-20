@@ -5,6 +5,7 @@ require 'redshift_connector/connector'
 require 'redshift_connector/exporter'
 require 'redshift_connector/active_record_data_source'
 require 'redshift_connector/active_record_exporter'
+require 'redshift_connector/immediate_exporter'
 require 'redshift_connector/importer'
 require 'redshift_connector/s3_bucket'
 require 'redshift_connector/s3_data_file_bundle'
@@ -21,11 +22,11 @@ module RedshiftConnector
   end
 
   def RedshiftConnector.transport_delta_from_s3(**params)
-    Importer.transport_delta_from_s3(**params)
+    Connector.transport_delta_from_s3(**params)
   end
 
   def RedshiftConnector.transport_all_from_s3(**params)
-    Importer.transport_all_from_s3(**params)
+    Connector.transport_all_from_s3(**params)
   end
 
   def RedshiftConnector.foreach(**params, &block)
