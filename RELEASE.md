@@ -1,5 +1,9 @@
 # Release Note
 
+## version 7.0.1
+
+- [fix] RedshiftConnector.transport_delta_from_s3, .transport_all_from_s3 were wrongly dropped, restore them.
+
 ## version 7.0.0
 
 - [INCOMPATIBLE] Library hierarchy changed: redshift-connector/* -> redshift_connector/*.  redshift-connector.rb still exists as an entry point for bundler.
