@@ -28,11 +28,11 @@ module RedshiftConnector
 
     def Exporter.foreach(**params, &block)
       exporter = for_query(**params)
+      bundle = exporter.execute
       begin
-        exporter.execute
-        exporter.bundle.each_row(&block)
+        bundle.each_row(&block)
       ensure
-        exporter.bundle.clear
+        bundle.clear if bundle.respond_to?(:clear)
       end
     end
   end
