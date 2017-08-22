@@ -1,5 +1,9 @@
 # Release Note
 
+## version 7.0.2
+
+- [fix] RedshiftConnector.foreach did not work
+
 ## version 7.0.1
 
 - [fix] RedshiftConnector.transport_delta_from_s3, .transport_all_from_s3 were wrongly dropped, restore them.
