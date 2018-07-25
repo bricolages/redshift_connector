@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email = 'aamine@loveruby.net'
   s.homepage = 'https://github.com/bricolages/redshift-connector'
 
-  s.files = Dir.glob(['README.md', 'lib/**/*.rb', 'test/**/*'])
+  s.files = `git ls-files -z`.split("\x0").reject {|f| f.match(%r{^(test|spec|features)/}) }
   s.require_path = 'lib'
 
   s.required_ruby_version = '>= 2.1.0'
@@ -22,6 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'pg', '~> 0.18.0'
   s.add_dependency 'activerecord-import'
   s.add_development_dependency 'test-unit'
-  s.add_development_dependency 'pry'
   s.add_development_dependency 'rake'
 end
