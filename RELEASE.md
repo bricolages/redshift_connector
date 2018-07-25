@@ -1,5 +1,9 @@
 # Release Note
 
+## version 7.2.1
+
+- no change.
+
 ## version 7.2.0
 
 - Removes aws-sdk dependency
