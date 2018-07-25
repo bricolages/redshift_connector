@@ -1,5 +1,9 @@
 # Release Note
 
+## version 7.2.0
+
+- Removes aws-sdk dependency
+
 ## version 7.0.2
 
 - [fix] RedshiftConnector.foreach did not work
