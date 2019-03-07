@@ -15,6 +15,7 @@ module RedshiftConnector
       old_table = "#{dest_table}_old"
 
       tmp_dao = @dao.dup
+      self.class.const_set(@dao.name.to_sym, tmp_dao)
       tmp_dao.table_name = tmp_table
 
       exec_update "drop table if exists #{tmp_table}"
