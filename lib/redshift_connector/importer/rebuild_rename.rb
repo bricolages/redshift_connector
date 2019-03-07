@@ -1,5 +1,6 @@
 require 'redshift_connector/importer/activerecord-import'
 require 'redshift_connector/logger'
+require 'thread'
 
 module RedshiftConnector
   class Importer::RebuildRename
@@ -14,8 +15,7 @@ module RedshiftConnector
       tmp_table = "#{dest_table}_new"
       old_table = "#{dest_table}_old"
 
-      tmp_dao = @dao.dup
-      self.class.const_set(@dao.name.to_sym, tmp_dao)
+      tmp_dao = self.class.make_temporary_dao(@dao)
       tmp_dao.table_name = tmp_table
 
       exec_update "drop table if exists #{tmp_table}"
@@ -24,6 +24,23 @@ module RedshiftConnector
       exec_update "drop table if exists #{old_table}"
       # Atomic table exchange
       exec_update "rename table #{dest_table} to #{old_table}, #{tmp_table} to #{dest_table}"
+    end
+
+    # Duplicates DAO (ActiveRecord class) and names it.
+    # Newer activerecord-import requires a class name (not a table name),
+    # we must prepare some name for temporary DAO class.
+    def self.make_temporary_dao(orig)
+      tmp = orig.dup
+      const_set("TemporaryDAO_#{get_unique_sequence}", tmp)
+      tmp.name   # fix class name
+      tmp
+    end
+
+    @dao_seq = 0
+    @dao_seq_lock = Mutex.new
+
+    def self.get_unique_sequence
+      @dao_seq_lock.synchronize { @dao_seq += 1 }
     end
 
     def exec_update(query)
