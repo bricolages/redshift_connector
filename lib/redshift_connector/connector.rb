@@ -115,7 +115,7 @@ module RedshiftConnector
     def Connector.transport_all(
         strategy: 'rename',
         schema:,
-        table:,
+        table: nil,
         src_table: table,
         dest_table: table,
         columns:,
