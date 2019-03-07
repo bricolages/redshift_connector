@@ -1,5 +1,10 @@
 # Release Note
 
+## version 7.2.2
+
+- [fix] RedshiftConnector.transport_all: src_table/dest_table parameter did not work.
+- [fix] RedshiftConnector.transport_all (strategy=rename): newer activerecord-import requires class name.
+
 ## version 7.2.1
 
 - no change.
