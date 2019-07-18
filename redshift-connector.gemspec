@@ -16,11 +16,11 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.required_ruby_version = '>= 2.1.0'
-  s.add_dependency 'redshift-connector-data_file', '>= 7.0.0'
   s.add_dependency 'activerecord'
   s.add_dependency 'activerecord-redshift'
   s.add_dependency 'pg', '~> 0.18.0'
   s.add_dependency 'activerecord-import'
+  s.add_dependency 'aws-sdk-s3', '~> 1.0'
   s.add_development_dependency 'test-unit'
   s.add_development_dependency 'rake'
 end
