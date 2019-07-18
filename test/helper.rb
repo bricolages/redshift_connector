@@ -17,7 +17,7 @@ class Redshift < ActiveRecord::Base
   establish_connection :redshift
 end
 
-require 'redshift-connector'
+require 'redshift_connector'
 # This IS REQUIRED to ensure to load mysql2 driver, at least outside of Rails.
 ActiveRecord::Import.require_adapter 'mysql2'
 require_relative 'config'

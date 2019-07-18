@@ -1,14 +1,17 @@
 # Redshift Connector for Rails
 
-redshift-connector is a Redshift bulk data connector for Rails (ActiveRecord).
+redshift_connector is a Redshift bulk data connector for Rails (ActiveRecord).
+
+This library is formerly called as "redshift-connector",
+but renamed to "redshift_connector" to follow the gem naming standard.
 
 ## Settings
 
 Add following block to your Gemfile and bundle.
 ```
-gem 'redshift-connector'
+gem 'redshift_connector'
 ```
-Add config/initializers/redshift-connector.rb like following:
+Add config/initializers/redshift_connector.rb like following:
 ```
 module RedshiftConnector
   Exporter.default_data_source = Any_ActiveRecord_Class_Bound_To_Redshift

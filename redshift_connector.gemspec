@@ -2,15 +2,15 @@ require_relative 'lib/redshift_connector/version'
 
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.name = 'redshift-connector'
+  s.name = 'redshift_connector'
   s.version = RedshiftConnector::VERSION
   s.summary = 'Redshift bulk data connector'
-  s.description = 'redshift-connector is a bulk data connector for Rails (ActiveRecord).'
+  s.description = 'redshift_connector is a bulk data connector for Rails (ActiveRecord).'
   s.license = 'MIT'
 
   s.author = ['Minero Aoki']
   s.email = 'aamine@loveruby.net'
-  s.homepage = 'https://github.com/bricolages/redshift-connector'
+  s.homepage = 'https://github.com/bricolages/redshift_connector'
 
   s.files = `git ls-files -z`.split("\x0").reject {|f| f.match(%r{^(test|spec|features)/}) }
   s.require_path = 'lib'
