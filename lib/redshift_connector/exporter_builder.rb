@@ -24,7 +24,6 @@ module RedshiftConnector
         bucket: nil,
         query:,
         txn_id: "#{Time.now.strftime('%Y%m%d_%H%M%S')}_#{$$}",
-        filter: nil,
         enable_sort: false,
         logger: RedshiftConnector.logger,
         quiet: false
@@ -35,7 +34,6 @@ module RedshiftConnector
         schema: schema,
         table: table,
         txn_id: txn_id,
-        filter: filter,
         logger: logger
       )
       @exporter_class.new(

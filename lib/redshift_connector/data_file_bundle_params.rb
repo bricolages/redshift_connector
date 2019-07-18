@@ -7,14 +7,12 @@ module RedshiftConnector
       schema:,
       table:,
       txn_id: nil,
-      filter:,
       logger: RedshiftConnector.logger
     )
       @bucket = bucket
       @schema = schema
       @table = table
       @txn_id = txn_id
-      @filter = filter
       @logger = logger
     end
 
@@ -22,7 +20,6 @@ module RedshiftConnector
     attr_reader :schema
     attr_reader :table
     attr_reader :txn_id
-    attr_reader :filter
     attr_reader :logger
   end
 end

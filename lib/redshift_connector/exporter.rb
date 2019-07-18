@@ -29,8 +29,9 @@ module RedshiftConnector
     def Exporter.foreach(**params, &block)
       exporter = for_query(**params)
       bundle = exporter.execute
+      r = DataFileBundleReader.new(bundle, logger: bundle.logger)
       begin
-        bundle.each_row(&block)
+        r.each_row(&block)
       ensure
         bundle.clear if bundle.respond_to?(:clear)
       end
