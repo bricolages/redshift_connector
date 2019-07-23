@@ -1,13 +1,24 @@
+require 'redshift_connector/logger'
+require 'forwardable'
+
 module RedshiftConnector
-  class AbstractDataFileBundle
-    def initialize(filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
+  class DataFileBundleReader
+    extend Forwardable
+
+    DEFAULT_BATCH_SIZE = 1000
+
+    def initialize(bundle, filter: nil, batch_size: DEFAULT_BATCH_SIZE, logger: RedshiftConnector.logger)
+      @bundle = bundle
       @filter = filter || lambda {|*row| row }
       @batch_size = batch_size || 1000
       @logger = logger
     end
 
+    attr_reader :bundle
     attr_reader :batch_size
     attr_reader :logger
+
+    def_delegators '@bundle', :url, :bucket, :key
 
     def each_row(&block)
       each_object do |obj|
@@ -25,10 +36,8 @@ module RedshiftConnector
     end
 
     def all_data_objects
-      data_files.select {|obj| obj.data_object? }
+      @bundle.data_files.select {|obj| obj.data_object? }
     end
-
-    # abstract data_files
 
     REPORT_SIZE = 10_0000
 

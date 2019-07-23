@@ -1,7 +1,7 @@
 require 'redshift_connector/data_file'
 
 module RedshiftConnector
-  class S3DataFile < AbstractDataFile
+  class S3DataFile < DataFile
     def initialize(object, reader_class:)
       super reader_class: reader_class
       @object = object

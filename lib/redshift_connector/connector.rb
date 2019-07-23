@@ -1,8 +1,9 @@
 require 'redshift_connector/exporter'
 require 'redshift_connector/immediate_exporter'
 require 'redshift_connector/importer'
-require 'redshift_connector/data_file_bundle_params'
 require 'redshift_connector/s3_data_file_bundle'
+require 'redshift_connector/data_file_bundle_params'
+require 'redshift_connector/data_file_bundle_reader'
 require 'redshift_connector/logger'
 
 module RedshiftConnector
@@ -24,7 +25,6 @@ module RedshiftConnector
         bucket: (bucket ? S3Bucket.get(bucket) : S3Bucket.default),
         prefix: prefix,
         format: format,
-        filter: filter,
         logger: logger
       )
       exporter = ImmediateExporter.new(bundle: bundle, logger: logger)
@@ -35,7 +35,7 @@ module RedshiftConnector
         upsert_columns: upsert_columns,
         logger: logger
       )
-      new(exporter: exporter, importer: importer, logger: logger)
+      new(exporter: exporter, importer: importer, filter: filter, logger: logger)
     end
 
     def Connector.transport_delta(
@@ -62,7 +62,6 @@ module RedshiftConnector
         schema: schema,
         table: src_table,
         txn_id: txn_id,
-        filter: filter,
         logger: logger
       )
       exporter = Exporter.for_table_delta(
@@ -80,7 +79,7 @@ module RedshiftConnector
         upsert_columns: upsert_columns,
         logger: logger
       )
-      new(exporter: exporter, importer: importer, logger: logger)
+      new(exporter: exporter, importer: importer, filter: filter, logger: logger)
     end
 
     def Connector.transport_all_from_s3(
@@ -99,7 +98,6 @@ module RedshiftConnector
         bucket: (bucket ? S3Bucket.get(bucket) : S3Bucket.default),
         prefix: prefix,
         format: format,
-        filter: filter,
         logger: logger
       )
       exporter = ImmediateExporter.new(bundle: bundle, logger: logger)
@@ -109,7 +107,7 @@ module RedshiftConnector
         columns: columns,
         logger: logger
       )
-      new(exporter: exporter, importer: importer, logger: logger)
+      new(exporter: exporter, importer: importer, filter: filter, logger: logger)
     end
 
     def Connector.transport_all(
@@ -131,7 +129,6 @@ module RedshiftConnector
         schema: schema,
         table: src_table,
         txn_id: txn_id,
-        filter: filter,
         logger: logger
       )
       exporter = Exporter.for_table(
@@ -147,12 +144,13 @@ module RedshiftConnector
         columns: columns,
         logger: logger
       )
-      new(exporter: exporter, importer: importer, logger: logger)
+      new(exporter: exporter, importer: importer, filter: filter, logger: logger)
     end
 
-    def initialize(exporter:, importer:, logger:)
+    def initialize(exporter:, importer:, filter: nil, logger:)
       @exporter = exporter
       @importer = importer
+      @filter = filter
       @logger = logger
       @bundle = nil
     end
@@ -175,9 +173,17 @@ module RedshiftConnector
       @bundle = @exporter.execute
     end
 
+    DEFAULT_BATCH_SIZE = 1000
+
     def import
       @logger.info "==== import task =================================================="
-      @importer.execute(@bundle)
+      r = DataFileBundleReader.new(
+        @bundle,
+        filter: @filter,
+        batch_size: DEFAULT_BATCH_SIZE,
+        logger: @logger
+      )
+      @importer.execute(r)
     end
   end
 end

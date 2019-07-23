@@ -1,11 +1,11 @@
-require 'redshift_connector/abstract_data_file_bundle'
 require 'redshift_connector/s3_bucket'
 require 'redshift_connector/s3_data_file'
+require 'redshift_connector/reader'
 require 'redshift_connector/logger'
 require 'aws-sdk-s3'
 
 module RedshiftConnector
-  class S3DataFileBundle < AbstractDataFileBundle
+  class S3DataFileBundle
     def self.for_params(params)
       unless params.txn_id
         raise ArgumentError, "cannot create bundle: missing txn_id"
@@ -16,32 +16,32 @@ module RedshiftConnector
         schema: params.schema,
         table: params.table,
         txn_id: params.txn_id,
-        filter: params.filter,
         logger: params.logger
       )
     end
 
-    def self.for_prefix(bucket: S3Bucket.default, prefix:, format:, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
+    def self.for_prefix(bucket: S3Bucket.default, prefix:, format:, logger: RedshiftConnector.logger)
       real_prefix = "#{bucket.prefix}/#{prefix}"
-      new(bucket, real_prefix, format: format, filter: filter, batch_size: batch_size, logger: logger)
+      new(bucket, real_prefix, format: format, logger: logger)
     end
 
-    def self.for_table(bucket: S3Bucket.default, schema:, table:, txn_id:, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
+    def self.for_table(bucket: S3Bucket.default, schema:, table:, txn_id:, logger: RedshiftConnector.logger)
       prefix = "#{bucket.prefix}/#{schema}_export/#{table}/#{txn_id}/#{table}.csv."
-      new(bucket, prefix, format: :redshift_csv, filter: filter, batch_size: batch_size, logger: logger)
+      new(bucket, prefix, format: :redshift_csv, logger: logger)
     end
 
-    def initialize(bucket, prefix, format: :csv, filter: nil, batch_size: 1000, logger: RedshiftConnector.logger)
-      super filter: filter, batch_size: batch_size, logger: logger
+    def initialize(bucket, prefix, format: :csv, logger: RedshiftConnector.logger)
       @bucket = bucket
       @prefix = prefix
       @format = format
+      @logger = logger
       @reader_class = Reader.get(format)
       logger.info "reader: #{@reader_class}"
     end
 
     attr_reader :bucket
     attr_reader :prefix
+    attr_reader :logger
 
     def url
       "s3://#{@bucket.name}/#{@prefix}"
