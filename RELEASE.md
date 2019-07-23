@@ -1,5 +1,13 @@
 # Release Note
 
+## version 8.0.0
+
+- [INCOMPATIBLE] This library is renamed to "redshift_connector".  Just modify your Gemfile from "redshift-connector" to "redshift_connector".
+- [INCOMPATIBLE] redshift-connector-data_file gem is merged.
+- [INCOMPATIBLE] (internal) *DataFileBundle#each, #each_row, #each_object, #each_batch, #all_data_objects are removed.  Use DataFileBundleReader class instead.
+- [INCOMPATIBLE] (internal) AbstractDataFileBundle class is removed.
+- [INCOMPATIBLE] (internal) AbstractDataFile class is removed.
+
 ## version 7.2.2
 
 - [fix] RedshiftConnector.transport_all: src_table/dest_table parameter did not work.
