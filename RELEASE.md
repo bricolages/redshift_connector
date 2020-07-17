@@ -1,5 +1,11 @@
 # Release Note
 
+## version 8.0.1
+
+- [fix] Loosen pg version restriction to allow >0.18 to support Rails 5.
+  Note that Redshift is PostgreSQL 8 compatible and pg >0.18 does not support PostgreSQL 8.
+  Now you can use any version of pg and most version of pg works with Redshift, but you must take a risk.
+
 ## version 8.0.0
 
 - [INCOMPATIBLE] This library is renamed to "redshift_connector".  Just modify your Gemfile from "redshift-connector" to "redshift_connector".
