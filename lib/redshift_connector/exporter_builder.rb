@@ -25,6 +25,7 @@ module RedshiftConnector
         query:,
         txn_id: "#{Time.now.strftime('%Y%m%d_%H%M%S')}_#{$$}",
         enable_sort: false,
+        enable_cast: false,
         logger: RedshiftConnector.logger,
         quiet: false
     )
@@ -41,6 +42,7 @@ module RedshiftConnector
         query: ArbitraryQuery.new(query),
         bundle_params: bundle_params,
         enable_sort: enable_sort,
+        enable_cast: enable_cast,
         logger: logger
       )
     end
