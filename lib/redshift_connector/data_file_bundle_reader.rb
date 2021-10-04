@@ -22,7 +22,7 @@ module RedshiftConnector
 
     def each_row(&block)
       each_object do |obj|
-        if @bundle.has_manifest?
+        if @bundle.respond_to?(:has_manifest?) && @bundle.has_manifest?
           obj.each_row do |row|
             yield type_cast(row)
           end

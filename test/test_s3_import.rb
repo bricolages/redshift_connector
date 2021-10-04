@@ -1,6 +1,6 @@
 require_relative 'helper'
 require 'test/unit'
-require 'redshift-connector'
+require 'redshift_connector'
 
 class TestS3Import < Test::Unit::TestCase
   def test_import_delta_tsv
