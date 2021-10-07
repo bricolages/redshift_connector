@@ -1,4 +1,5 @@
 require 'redshift_connector/logger'
+require 'redshift_connector/redshift_data_type'
 require 'forwardable'
 
 module RedshiftConnector
@@ -22,7 +23,14 @@ module RedshiftConnector
 
     def each_row(&block)
       each_object do |obj|
-        obj.each_row(&block)
+        if @bundle.respond_to?(:has_manifest?) && @bundle.has_manifest?
+          obj.each_row do |row|
+            yield RedshiftDataType.type_cast(row, @bundle.manifest_file)
+          end
+        else
+          obj.each_row(&block)
+        end
+
       end
     end
 
@@ -68,5 +76,6 @@ module RedshiftConnector
       yield buf unless buf.empty?
     end
     private :do_each_batch
+
   end
 end

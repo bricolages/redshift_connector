@@ -23,8 +23,10 @@ module RedshiftConnector
         table:,
         bucket: nil,
         query:,
+        query_params: [],
         txn_id: "#{Time.now.strftime('%Y%m%d_%H%M%S')}_#{$$}",
         enable_sort: false,
+        enable_cast: false,
         logger: RedshiftConnector.logger,
         quiet: false
     )
@@ -39,8 +41,10 @@ module RedshiftConnector
       @exporter_class.new(
         ds: @ds,
         query: ArbitraryQuery.new(query),
+        query_params: query_params,
         bundle_params: bundle_params,
         enable_sort: enable_sort,
+        enable_cast: enable_cast,
         logger: logger
       )
     end
