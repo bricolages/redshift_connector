@@ -1,5 +1,9 @@
 # Release Note
 
+## version 8.1.0
+
+- [new] Add type cast option for queuery.
+
 ## version 8.0.1
 
 - [fix] Loosen pg version restriction to allow >0.18 to support Rails 5.
