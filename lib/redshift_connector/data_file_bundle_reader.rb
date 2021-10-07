@@ -1,4 +1,5 @@
 require 'redshift_connector/logger'
+require 'redshift_connector/redshift_data_type'
 require 'forwardable'
 
 module RedshiftConnector
@@ -24,7 +25,7 @@ module RedshiftConnector
       each_object do |obj|
         if @bundle.respond_to?(:has_manifest?) && @bundle.has_manifest?
           obj.each_row do |row|
-            yield type_cast(row)
+            yield RedshiftDataType.type_cast(row, @bundle.manifest_file)
           end
         else
           obj.each_row(&block)
@@ -76,28 +77,5 @@ module RedshiftConnector
     end
     private :do_each_batch
 
-    def type_cast(row)
-      row.zip(@bundle.manifest_file.column_types).map do |value, type|
-        next nil if (value == '' and type != 'character varing') # null becomes '' on unload
-
-        case type
-        when 'smallint', 'integer', 'bigint'
-          value.to_i
-        when 'numeric', 'double precision'
-          value.to_f
-        when 'character', 'character varying'
-          value
-        when 'timestamp without time zone', 'timestamp with time zone'
-          Time.parse(value)
-        when 'date'
-          Date.parse(value)
-        when 'boolean'
-          value == 'true' ? true : false
-        else
-          raise "not support data type: #{type}"
-        end
-      end
-    end
-    private :type_cast
   end
 end
