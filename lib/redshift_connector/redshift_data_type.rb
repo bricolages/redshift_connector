@@ -1,6 +1,17 @@
 
 module RedshiftConnector
   module RedshiftDataType
+    FALSE_VALUES = [
+      false, 0,
+      "0", :"0",
+      "f", :f,
+      "F", :F,
+      "false", :false,
+      "FALSE", :FALSE,
+      "off", :off,
+      "OFF", :OFF,
+    ].to_set.freeze
+
     def self.type_cast(row, manifest_file)
       row.zip(manifest_file.column_types).map do |value, type|
         next nil if (value == '' and type != 'character varing') # null becomes '' on unload
@@ -17,7 +28,7 @@ module RedshiftConnector
         when 'date'
           Date.parse(value)
         when 'boolean'
-          value == 'true' ? true : false
+          FALSE_VALUES.include?(value) ? false : true
         else
           raise "not support data type: #{type}"
         end
