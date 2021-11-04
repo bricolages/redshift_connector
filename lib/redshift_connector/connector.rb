@@ -117,6 +117,8 @@ module RedshiftConnector
         src_table: table,
         dest_table: table,
         columns:,
+        src_columns: columns,
+        dest_columuns: columns,
         bucket: nil,
         txn_id: nil,
         filter:,
@@ -135,13 +137,13 @@ module RedshiftConnector
         bundle_params: bundle_params,
         schema: schema,
         table: src_table,
-        columns: columns,
+        columns: src_columuns,
         logger: logger
       )
       importer = Importer.for_rebuild(
         strategy: strategy,
         table: dest_table,
-        columns: columns,
+        columns: dest_columuns,
         logger: logger
       )
       new(exporter: exporter, importer: importer, filter: filter, logger: logger)
