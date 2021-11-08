@@ -4,7 +4,8 @@ require 'redshift_connector/logger'
 
 module RedshiftConnector
   class ActiveRecordExporter
-    def initialize(ds:, query:, bundle_params:, enable_sort: false, logger: RedshiftConnector.logger)
+    def initialize(ds:, query:, bundle_params:, enable_sort: false, enable_cast: false, logger: RedshiftConnector.logger)
+      raise ArgumentError, "ActiveRecordExporter does not support type cast" if enable_cast
       @ds = ds
       @query = query
       @bundle_params = bundle_params

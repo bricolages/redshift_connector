@@ -8,14 +8,14 @@ module RedshiftConnector
       @exporter_class = exporter_class
     end
 
-    def build_for_table_delta(schema:, table:, condition:, columns:, bundle_params:, logger: RedshiftConnector.logger)
+    def build_for_table_delta(schema:, table:, condition:, columns:, enable_cast:, bundle_params:, logger: RedshiftConnector.logger)
       query = DeltaQuery.new(schema: schema, table: table, columns: columns, condition: condition)
-      @exporter_class.new(ds: @ds, query: query, bundle_params: bundle_params, logger: logger)
+      @exporter_class.new(ds: @ds, query: query, bundle_params: bundle_params, enable_cast: enable_cast, logger: logger)
     end
 
-    def build_for_table(schema:, table:, columns:, bundle_params:, logger: RedshiftConnector.logger)
+    def build_for_table(schema:, table:, columns:, enable_cast:, bundle_params:, logger: RedshiftConnector.logger)
       query = SelectAllQuery.new(schema: schema, table: table, columns: columns)
-      @exporter_class.new(ds: @ds, query: query, bundle_params: bundle_params, logger: logger)
+      @exporter_class.new(ds: @ds, query: query, bundle_params: bundle_params, enable_cast: enable_cast, logger: logger)
     end
 
     def build_for_query(

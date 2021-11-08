@@ -49,13 +49,17 @@ module RedshiftConnector
         upsert_columns: nil,
         bucket: nil,
         txn_id: nil,
-        filter:,
+        filter: nil,
+        enable_cast: false,
         logger: RedshiftConnector.logger,
         quiet: false
     )
       unless src_table and dest_table
         raise ArgumentError, "missing :table, :src_table or :dest_table"
       end
+      raise ArgumentError, "filter and enable_cast are exclusive" if filter and enable_cast
+      raise ArgumentError, "either filter or enable_cast is required" unless filter or enable_cast
+
       logger = NullLogger.new if quiet
       bundle_params = DataFileBundleParams.new(
         bucket: bucket,
@@ -70,6 +74,7 @@ module RedshiftConnector
         table: src_table,
         columns: columns,
         condition: condition,
+        enable_cast: enable_cast,
         logger: logger
       )
       importer = Importer.for_delta_upsert(
@@ -119,10 +124,14 @@ module RedshiftConnector
         columns:,
         bucket: nil,
         txn_id: nil,
-        filter:,
+        filter: nil,
+        enable_cast: false,
         logger: RedshiftConnector.logger,
         quiet: false
     )
+    raise ArgumentError, "filter and enable_cast are exclusive" if filter and enable_cast
+    raise ArgumentError, "either filter or enable_cast is required" unless filter or enable_cast
+
       logger = NullLogger.new if quiet
       bundle_params = DataFileBundleParams.new(
         bucket: bucket,
@@ -136,6 +145,7 @@ module RedshiftConnector
         schema: schema,
         table: src_table,
         columns: columns,
+        enable_cast: enable_cast,
         logger: logger
       )
       importer = Importer.for_rebuild(
