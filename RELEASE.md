@@ -1,5 +1,10 @@
 # Release Note
 
+## version 8.1.2
+- [new] Add type cast option instead of filter option for #transport_delta and #transport_all.
+## version 8.1.1
+- [fix] Boolean type cast was reverse.
+
 ## version 8.1.0
 
 - [new] Add type cast option for queuery.
