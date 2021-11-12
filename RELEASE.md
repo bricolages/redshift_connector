@@ -1,7 +1,11 @@
 # Release Note
 
+## version 8.1.3
+- [fix] Mishandling time zone for timestamp type.
+
 ## version 8.1.2
 - [new] Add type cast option instead of filter option for #transport_delta and #transport_all.
+
 ## version 8.1.1
 - [fix] Boolean type cast was reverse.
 
