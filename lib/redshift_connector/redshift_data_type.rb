@@ -24,7 +24,7 @@ module RedshiftConnector
         when 'character', 'character varying'
           value
         when 'timestamp without time zone', 'timestamp with time zone'
-          Time.parse(value)
+          value # Ruby does not have a class without timezone
         when 'date'
           Date.parse(value)
         when 'boolean'
