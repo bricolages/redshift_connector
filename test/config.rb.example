@@ -2,7 +2,7 @@ module RedshiftConnector
   # For test only
   $TEST_SCHEMA = 'test'
 
-  Exporter.default_data_source = Redshift
+  Exporter.default_data_source = RedshiftConnector::ActiveRecordDataSource.new(Postgresql)
 
   S3Bucket.add(
     'ENTRY_NAME',

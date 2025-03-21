@@ -13,8 +13,8 @@ end
 class ItemPv < BaseConn
   connection
 end
-class Redshift < ActiveRecord::Base
-  establish_connection :redshift
+class Postgresql < ActiveRecord::Base
+  establish_connection :postgresql
 end
 
 require 'redshift_connector'

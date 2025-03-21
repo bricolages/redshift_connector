@@ -5,8 +5,8 @@ mysql:
   database: test
   encoding: utf8
 
-redshift:
-  adapter: redshift
+postgresql:
+  adapter: postgresql
   host: HOST_NAME
   port: 5439
   database: DATABASE_NAME
